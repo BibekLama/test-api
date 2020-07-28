@@ -52,12 +52,11 @@ Router.post('/', (req, res, next) => {
 
 
 Router.get('/edit/:id', (req, res, next) => {
-
     var error = false;
     Tw.findById({_id: req.params.id})
         .exec()
         .then(tw => {
-            res.render('edit', {id: req.params.id});
+            res.render('edit', {tw: tw});
         })
         .catch(err => {
             res.status(500).json({error: err});    
@@ -68,17 +67,7 @@ Router.post('/delete', (req, res, next) => {
     Tw.deleteOne({_id: req.body.id})
             .exec()
             .then(response => {
-                var error = false;
-                Tw.find()
-                    .lean()
-                    .exec()
-                    .then(tws => {
-                        res.redirect('/');
-                    })
-                    .catch(err => {
-                        error = err;
-                        console.error(error);
-                    });
+                res.redirect('/');
             })
             .catch(err => {
                 res.status(500).json({error: err});    

@@ -16,7 +16,10 @@
                     <h5 class="card-title">{{{this.message}}}</h5>
                     <p class="card-text text-muted"><small>{{{ formatDate this.createdAt }}}</small></p>
                     <div class="d-flex justify-content-end">
-                        <form action="/{{this._id}}/" method=""><button type="submit" class="btn btn-light btn-sm">Delete</button></form>
+                        <form action="/delete" method="POST">
+                            <input type="hidden" name="id" value="{{this._id}}" />
+                            <button type="submit" class="btn btn-light btn-sm">Delete</button>
+                        </form>
                         <a href="/edit/{{this._id}}" class="btn btn-light btn-sm ml-2">Edit</a>
                     </div>
                 </div>
