@@ -1,7 +1,7 @@
 <div class="jumbotron col-12 twit-add-box">
-    <form>
+    <form action="/" method="POST">
         <div class="form-group">
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+            <textarea class="form-control" name="message" id="exampleFormControlTextarea1" rows="5"></textarea>
         </div>
         <button type="submit" class="btn btn-danger btn-lg">Add</button>
     </form>
@@ -16,8 +16,8 @@
                     <h5 class="card-title">{{{this.message}}}</h5>
                     <p class="card-text text-muted"><small>{{{ formatDate this.createdAt }}}</small></p>
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-light btn-sm">Delete</button>
-                        <button type="submit" class="btn btn-light btn-sm ml-2">Edit</button>
+                        <form action="/{{this._id}}/" method=""><button type="submit" class="btn btn-light btn-sm">Delete</button></form>
+                        <a href="/edit/{{this._id}}" class="btn btn-light btn-sm ml-2">Edit</a>
                     </div>
                 </div>
             </div>
