@@ -1,34 +1,76 @@
 body{
     margin: 0;
     padding: 30px 0;
+    background:#f9f9f9;
 }
 
-.twit-add-box{
-    background: #52cac0;
-    padding:30px;
-    box-sizing: border-box;
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.twit-add-box .form-control{
-    border-color: rgba(0,0,0,0.4);
+.add-box{
+    border-radius: 8px;
+}
+
+.message-box{
+    border:none ;
+    border-bottom:2px solid #ddd;
+    resize: none;
+    border-radius: 0;
+    padding:0;
+}
+
+.message-box:focus{
+    border:none;
     box-shadow: none;
+    border-bottom:2px solid rgb(218, 44, 44);
 }
 
-.twit-add-box .form-control:focus{
-    border-color: rgba(241, 14, 14, 0.7);
-    box-shadow: none;
-}
-
-.twit-add-box .btn-lg{
+.add-btn{
     float: right;
     padding: 8px 30px;
 }
 
-.twit-list{
-    padding-top:15px;
-    background: #f9f9f9;
+.add-box .card-header{
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
-.twit-list .card{
-    margin-bottom: 15px;
+.post-card{
+    border-radius:8px;
+}
+.post-card .card-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FFF;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.post-card .card-header .header-left{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-grow: 1;
+}
+
+.avatar{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.avatar img{
+    width: 100%;
+    clip-path: circle(50%);
+}
+
+.post-card .card-footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }

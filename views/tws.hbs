@@ -1,28 +1,45 @@
-<div class="jumbotron col-12 twit-add-box">
-    <form action="/" method="POST">
-        <div class="form-group">
-            <textarea class="form-control" name="message" id="exampleFormControlTextarea1" rows="5"></textarea>
-        </div>
-        <button type="submit" class="btn btn-danger btn-lg">Add</button>
-    </form>
+<div class="col-8 card mb-5 p-0 add-box shadow">
+    <div class="card-header">
+        <h2>TWS Home</h2>
+    </div>
+    <div class="card-body">
+        <form action="/" method="POST">
+            <div class="form-group">
+                <textarea class="form-control message-box" name="message" id="exampleFormControlTextarea1" placeholder="Write your twitt!"
+                    rows="2"></textarea>
+            </div>
+            <button type="submit" class="btn btn-danger add-btn rounded-pill">Add</button>
+        </form>
+    </div>
 </div>
 
-<div class="col-12">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-md-4 twit-list">
+<h2 class="mb-3">Messages </h2>
+
+<div class="col-8">
+    <div class="row">
         {{#each tws}}
-        <div class="col xs-12 sm-6 md-4 lg-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{{this.message}}}</h5>
-                    <p class="card-text text-muted"><small>{{{ formatDate this.createdAt }}}</small></p>
-                    <div class="d-flex justify-content-end">
-                        <form action="/delete" method="POST">
-                            <input type="hidden" name="id" value="{{this._id}}" />
-                            <button type="submit" class="btn btn-light btn-sm">Delete</button>
-                        </form>
-                        <a href="/edit/{{this._id}}" class="btn btn-light btn-sm ml-2">Edit</a>
+
+        <div class="card col-12 mb-4 p-0 shadow post-card">
+            <div class="card-header">
+                <div class="header-left">
+                    <div class="avatar">
+                        <img src="/images/profile.jpg" class="rounded" alt="Avatar" />
                     </div>
+                    <h5>User</h5>
                 </div>
+                <form action="/delete" method="POST">
+                    <input type="hidden" name="id" value="{{this._id}}" />
+                    <button type="submit" class="close text-danger" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </form>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{{this.message}}}</p>
+            </div>
+            <div class="card-footer text-muted">
+                <small>{{{ formatDate this.createdAt }}}</small>
+                <a href="/edit" ><i class="fa fa-edit"></i></a>
             </div>
         </div>
         {{/each}}
