@@ -64,8 +64,8 @@ Router.get('/edit/:id', (req, res, next) => {
         })
 });
 
-Router.delete('/:id', (req, res, next) => {
-    Tw.deleteOne({_id: req.params.id})
+Router.post('/delete', (req, res, next) => {
+    Tw.deleteOne({_id: req.body.id})
             .exec()
             .then(response => {
                 var error = false;
