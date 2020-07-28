@@ -6,8 +6,8 @@ const Router = express.Router();
 
 const Tw = require('../../models/Tw');
 
-Router.get('/', (req, res, next) => {
-
+var list = (req, res, msg = '', data = '') => {
+    
     var error = false;
     Tw.find()
         .sort({'createdAt': -1})
@@ -16,16 +16,30 @@ Router.get('/', (req, res, next) => {
         .then(tws => {
             res.render('tws', {
                 tws: tws,
-                error: error
+                msg: msg,
+                error: error,
+                data: data
             });
         })
         .catch(err => {
             error = err;
             console.error(error);
         });
+};
+
+Router.get('/', (req, res) => {
+    list(req, res);
 });
 
-Router.post('/', (req, res, next) => {
+Router.get('/msg/:type/:msg', (req, res) => {
+    var msg = {
+        type: req.params.type,
+        message: req.params.msg
+    };
+    list(req, res, msg);
+});
+
+Router.post('/', (req, res) => {
 
     var error = false;
     if (req.body.message && req.body.message != "") {
@@ -37,41 +51,66 @@ Router.post('/', (req, res, next) => {
 
         tw.save()
             .then(tw => {
-               res.redirect('/')
+               res.redirect('/tws/msg/success/Added Successfully');
             })
             .catch(err => {
-                res.status(500).json({error: err});    
+                console.log(err);
+                res.redirect('/tws/msg/danger/Could not add');
             })
 
     } else {
-
-        res.status(500).json({error: "Please put some values"});   
-
+        res.redirect('/tws/msg/warning/Please put some value');  
     }
 });
 
 
-Router.get('/edit/:id', (req, res, next) => {
-    var error = false;
+Router.get('/action/:type/:id', (req, res) => {
+    
     Tw.findById({_id: req.params.id})
         .exec()
         .then(tw => {
-            res.render('edit', {tw: tw});
+            var data = {
+                type: req.params.type,
+                id: req.params.id
+            }
+            list(req, res, msg = '', data);
         })
         .catch(err => {
             res.status(500).json({error: err});    
         })
 });
 
-Router.post('/delete', (req, res, next) => {
-    Tw.deleteOne({_id: req.body.id})
+Router.post('/:id', (req, res, next) => {
+    if (req.body.message && req.body.message != "") {
+
+        Tw.updateOne({_id: req.params.id}, {$set: req.body})
             .exec()
             .then(response => {
-                res.redirect('/');
+                res.redirect('/tws/msg/success/Updated Successfully');
             })
             .catch(err => {
-                res.status(500).json({error: err});    
+                console.log(err)  
+                res.redirect('/tws/msg/danger/Could not update');  
             })
+
+    } else {
+
+        res.redirect('/tws/msg/warning/Please put some value');     
+
+    }
+});
+
+Router.get('/delete/:id', (req, res) => {
+
+    Tw.remove({_id: req.params.id})
+            .exec()
+            .then(response => {
+                res.redirect('/tws/msg/success/Deleted Successfully');
+            })
+            .catch(err => {
+                console.log(err);
+                res.redirect('/tws/msg/danger/Could not delete');    
+            });
 
 });
 

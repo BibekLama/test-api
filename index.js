@@ -23,8 +23,6 @@ const server = http.createServer(app);
 const testAPIRouter = require('./routers/api/tws');
 const testWebRouter = require('./routers/web/tws');
 
-app.use(express.static(path.join(__dirname, 'public')))
-
 app.use(morgan('dev'));
 
 app.use(express.urlencoded({ extended: false }));
@@ -33,18 +31,33 @@ app.use(bodyParser.json());
 const connectDB = require('./middlewares/db');
 connectDB.connect();
 
-app.set("view engine", 'hbs');
 app.engine('hbs', handlebars({
-    layoutsDir: path.join(__dirname, '/views/layouts'),
-    extname: 'hbs',
+    defaultLayout: 'main',
+    extname: '.hbs',
     helpers: {
         formatDate: function (date, format) {
             return moment(date, "YYYYMMDD").fromNow();
+        },
+        isEmpty: (value) => {
+            return value === '';
+        },
+        isNotEmpty: (value) => {
+            return value !== '';
+        },
+        isEquals: (value1, value2) => {
+            return value1 == value2;
         }
     }
 }));
+app.set("view engine", 'hbs');
 
-app.use('/', testWebRouter);
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + '/node_modules/font-awesome'));
+app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
+app.use(express.static(__dirname + '/node_modules/jquery/dist'));
+app.use(express.static(__dirname + '/node_modules/popper.js/dist'));
+
+app.use('/tws', testWebRouter);
 
 app.use('/api/tws', testAPIRouter);
 
