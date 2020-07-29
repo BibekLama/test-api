@@ -4,7 +4,7 @@
   npm install
 
 ## Demo
-  https://bibek-tws.herokuapp.com/
+  https://bibek-tws.herokuapp.com/tws
 
 ### API Endpoints
 
