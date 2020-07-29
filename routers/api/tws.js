@@ -10,6 +10,7 @@ const Tw = require('../../models/Tw');
 Router.get('/', (req, res, next) => {
 
     Tw.find()
+        .sort({'createdAt': -1})
         .lean()
         .exec()
         .then(tws => {

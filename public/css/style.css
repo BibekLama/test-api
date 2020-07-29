@@ -69,14 +69,15 @@ body{
     clip-path: circle(50%);
 }
 
+.post-card{
+    background: #fff;
+}
+
 .post-card.active{
     background: #f9f9f9;
 }
 
-.post-card .card-header{
-    background: #fff;
-}
-.post-card .card-header.active{
+.post-card.active .card-header{
     background: #f9f9f9;
 }
 
@@ -88,4 +89,10 @@ body{
 
 .alert strong{
     text-transform: capitalize;
+}
+
+#message-list-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

@@ -14,8 +14,6 @@ const moment = require('moment');
 
 require('dotenv').config();
 
-
-
 const app = express();
 
 const server = http.createServer(app);
@@ -56,6 +54,7 @@ app.use(express.static(__dirname + '/node_modules/font-awesome'));
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
 app.use(express.static(__dirname + '/node_modules/jquery/dist'));
 app.use(express.static(__dirname + '/node_modules/@popperjs/core/dist/umd'));
+app.use(express.static(__dirname + '/node_modules/moment'));
 
 app.use('/tws', testWebRouter);
 
