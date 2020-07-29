@@ -84,9 +84,8 @@ var $msgContent = $('#msg-content');
             },
             success: function(result){
                 displayMessageList(result);
+                $loader.removeClass('d-block');
             },
-        }).then(function(data) {
-            $loader.removeClass('d-block');
         });
     };
 
@@ -117,6 +116,8 @@ var $msgContent = $('#msg-content');
                 $msgBox.addClass('alert-success d-block');
                 $msgTitle.html("Success !!!");
                 $msgContent.html(result.message);
+                $loader.removeClass('d-block');
+                getAllMessages();
             },
             error: function(xhr){
                 $loader.removeClass('d-block');
@@ -140,10 +141,6 @@ var $msgContent = $('#msg-content');
                     $msgContent.html("Not found")
                 }
             }
-       }).then(function(data){
-            // console.log(data)
-            $loader.removeClass('d-block');
-            getAllMessages();
        });
     };
 
