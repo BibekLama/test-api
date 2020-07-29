@@ -45,7 +45,10 @@ Router.post('/', (req, res, next) => {
 
         tw.save()
             .then(tw => {
-                res.status(200).send(tw);
+                res.status(200).send({
+                    message: "Added Successfully",
+                    tw
+                });
             })
             .catch(err => {
                 res.status(500).json({error: err});    
@@ -53,7 +56,7 @@ Router.post('/', (req, res, next) => {
 
     } else {
 
-        res.status(500).json({error: "Please put some values"});   
+        res.status(501).json({error: "Please put some values"});   
 
     }
 });

@@ -2,6 +2,11 @@
 
 const baseUrl = location.protocol+"//"+location.hostname+":"+location.port+"/api";
 
+
+var $msgBox = $('#msg-box');
+var $msgTitle = $('#msg-title');
+var $msgContent = $('#msg-content');
+
 (function($){
     var cardAddHover = function(e) {
         $(this).addClass("active");
@@ -13,6 +18,11 @@ const baseUrl = location.protocol+"//"+location.hostname+":"+location.port+"/api
 
     $('.post-card').hover(cardAddHover, cardRemoveHover);
 
+
+    /******************************************************************************
+     * Method: GET
+     * URL: hostname/api/tws
+     * ****************************************************************************/
 
     // Display all message list
 
@@ -50,9 +60,6 @@ const baseUrl = location.protocol+"//"+location.hostname+":"+location.port+"/api
     var getAllMessages = function(){
         const messagesUrl = baseUrl+"/tws";
         var $loader = $('#message-loading');
-        var $errorBox = $('#error-box');
-        var $errorTitle = $('#error-title');
-        var $errorMessage = $('#error-message');
         $.ajax({
             url: messagesUrl,
             contentType: "application/json",
@@ -63,22 +70,88 @@ const baseUrl = location.protocol+"//"+location.hostname+":"+location.port+"/api
             error: function(xhr){
                 if(xhr.status === 500){
                     console.log(xhr.responseJSON);
-                    $errorBox.addClass('alert-danger show');
-                    $errorTitle.html("Error !!!");
-                    $errorMessage.html("Something went wrong.")
+                    $msgBox.addClass('alert-danger d-block');
+                    $msgTitle.html("Error !!!");
+                    $msgContent.html("Something went wrong.")
                 }
-                $loader.removeClass('d-block');
+                if(xhr.status === 404){
+                    console.log(xhr.responseJSON);
+                    $msgBox.addClass('alert-danger d-block');
+                    $msgTitle.html("Error !!!");
+                    $msgContent.html("API url not found")
+                }
+                $loader.removeClass('alert-danger d-block');
             },
             success: function(result){
-                // console.log(result)
+                displayMessageList(result);
             },
         }).then(function(data) {
             $loader.removeClass('d-block');
-            displayMessageList(data);
         });
     };
 
     getAllMessages();
+
+    /****************************************************************************** 
+     * Method: POST
+     * URL: hostname/api/tws
+     * body : {
+     *      "message": "Your message"
+     * }
+     * ****************************************************************************/
+
+    // Add new twit
+    var addNewMessage = function(data){
+        const addUrl = baseUrl+"/tws";
+        var $loader = $('#add-loader');
+        $.ajax({
+            type: "POST",
+            url: addUrl,
+            data: data,
+            dataType: 'json',
+            beforeSend: function( xhr ) {
+                $loader.addClass('d-block');
+            },
+            success: function(result) {
+                console.log(result);
+                $msgBox.addClass('alert-success d-block');
+                $msgTitle.html("Success !!!");
+                $msgContent.html(result.message);
+            },
+            error: function(xhr){
+                $loader.removeClass('d-block');
+                if(xhr.status === 500){
+                    console.log(xhr.responseJSON);
+                    $msgBox.addClass('alert-danger d-block');
+                    $msgTitle.html("Error !!!");
+                    $msgContent.html("Something went wrong.")
+                }
+                if(xhr.status === 501){
+                    console.log(xhr.responseJSON);
+                    var error = xhr.responseJSON.error;
+                    $msgBox.addClass('alert-warning d-block');
+                    $msgTitle.html("Warning !!!");
+                    $msgContent.html(error)
+                }
+                if(xhr.status === 404){
+                    console.log(xhr.responseJSON);
+                    $msgBox.addClass('alert-danger d-block');
+                    $msgTitle.html("Error !!!");
+                    $msgContent.html("Not found")
+                }
+            }
+       }).then(function(data){
+            // console.log(data)
+            $loader.removeClass('d-block');
+            getAllMessages();
+       });
+    };
+
+    $( "#add-form" ).submit(function( event ) {
+        event.preventDefault();
+        addNewMessage($(this).serialize());
+        $(this).trigger('reset');
+    });
 
 })(jQuery);
 
