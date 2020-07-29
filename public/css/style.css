@@ -96,3 +96,18 @@ body{
     align-items: center;
     justify-content: center;
 }
+
+.delete-button:focus{
+    border:none;
+    box-shadow: none;
+}
+
+.delete-loader:focus{
+    border:none;
+    box-shadow: none;
+}
+
+.delete-icon:focus{
+    border:none;
+    box-shadow: none;
+}

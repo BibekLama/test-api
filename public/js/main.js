@@ -39,9 +39,12 @@ var $msgContent = $('#msg-content');
                             </div>
                             <h5>User</h5>
                         </div>
-                        <a href="/tws/delete/{{this._id}}" class="close text-danger" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </a>
+                        <button class="close text-danger delete-icon border-0" id="delete-button" data-id="${this._id}">
+                            <span aria-hidden="true" id="delete-icon">&times;</span>
+                        </button>
+                        <div class="spinner-border spinner-border-sm delete-loader d-none" id="delete-loader" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
                     <div class="card-body">
                         <p class="card-text">${value.message}</p>
@@ -61,6 +64,7 @@ var $msgContent = $('#msg-content');
         const messagesUrl = baseUrl+"/tws";
         var $loader = $('#message-loading');
         $.ajax({
+            type: "GET",
             url: messagesUrl,
             contentType: "application/json",
             dataType: 'json',
@@ -148,6 +152,62 @@ var $msgContent = $('#msg-content');
         event.preventDefault();
         addNewMessage($(this).serialize());
         $(this).trigger('reset');
+    });
+
+    /****************************************************************************** 
+     * Method: DELETE
+     * URL: hostname/api/tws/:id
+     * params: id (Mongodb Object ID)
+     * ****************************************************************************/
+
+    // Delete twit
+    var deleteMessage = function(id){
+        var $deleteIcon = $('#delete-icon');
+        var $loader = $('#delete-loader');
+
+        const deleteUrl = baseUrl+"/tws/"+id;
+
+        $deleteIcon.addClass('d-none');
+        $loader.addClass('d-block');
+
+        $.ajax({
+            type: "DELETE",
+            url: deleteUrl,
+            contentType: "application/json",
+            dataType: 'json',
+            beforeSend: function( xhr ) {
+                $loader.addClass('d-block');
+            },
+            error: function(xhr){
+                if(xhr.status === 500){
+                    console.log(xhr.responseJSON);
+                    $msgBox.addClass('alert-danger d-block');
+                    $msgTitle.html("Error !!!");
+                    $msgContent.html("Something went wrong.")
+                }
+                if(xhr.status === 404){
+                    console.log(xhr.responseJSON);
+                    $msgBox.addClass('alert-danger d-block');
+                    $msgTitle.html("Error !!!");
+                    $msgContent.html("API url not found")
+                }
+                $loader.removeClass('d-block');
+            },
+            success: function(result){
+                console.log(result);
+                $msgBox.addClass('alert-success d-block');
+                $msgTitle.html("Success !!!");
+                $msgContent.html(result.message)
+                getAllMessages();
+                $loader.removeClass('d-block');
+            },
+        });
+    };
+
+    $(document).on('click', '#delete-button', function(){ 
+        var id = $(this).attr('data-id');
+        // console.log(id);
+        deleteMessage(id);
     });
 
 })(jQuery);
