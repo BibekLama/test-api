@@ -78,7 +78,7 @@ Router.patch('/:id', (req, res, next) => {
 
     } else {
 
-        res.status(500).json({error: "Please put some values"});   
+        res.status(501).json({error: "Please put some values"});   
 
     }
 });

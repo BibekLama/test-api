@@ -56,6 +56,21 @@ app.use(express.static(__dirname + '/node_modules/jquery/dist'));
 app.use(express.static(__dirname + '/node_modules/@popperjs/core/dist/umd'));
 app.use(express.static(__dirname + '/node_modules/moment'));
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    );
+    if(req.method === 'OPTIONS'){
+        res.header('Access-Control-Allow-Methods',
+            'PUT, POST, PATCH, DELETE, GET'
+        );
+        return res.status(200).json({});
+    }
+    next();
+});
+
+
 app.use('/tws', testWebRouter);
 
 app.use('/api/tws', testAPIRouter);
