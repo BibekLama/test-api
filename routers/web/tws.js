@@ -114,4 +114,8 @@ Router.get('/delete/:id', (req, res) => {
 
 });
 
+Router.get('/api/consume', (req, res) => {
+    res.render('api');
+});
+
 module.exports = Router;

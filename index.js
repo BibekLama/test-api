@@ -55,7 +55,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '/node_modules/font-awesome'));
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
 app.use(express.static(__dirname + '/node_modules/jquery/dist'));
-app.use(express.static(__dirname + '/node_modules/popper.js/dist'));
+app.use(express.static(__dirname + '/node_modules/@popperjs/core/dist/umd'));
 
 app.use('/tws', testWebRouter);
 

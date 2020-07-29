@@ -69,6 +69,17 @@ body{
     clip-path: circle(50%);
 }
 
+.post-card.active{
+    background: #f9f9f9;
+}
+
+.post-card .card-header{
+    background: #fff;
+}
+.post-card .card-header.active{
+    background: #f9f9f9;
+}
+
 .post-card .card-footer{
     display: flex;
     align-items: center;
