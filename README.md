@@ -1,10 +1,10 @@
-# test-api
+# Simple NodeJS Application
 
 ## Installation
-  npm install
+  npm install or npm i
 
 ## Demo
-  - Simple Demo: https://bibek-tws.herokuapp.com/tws
+  - Simple Form Handling Demo: https://bibek-tws.herokuapp.com/tws
   - Consuming API with Jquery Ajax Demo: https://bibek-tws.herokuapp.com/tws/api/consume
 
 ### API Endpoints
