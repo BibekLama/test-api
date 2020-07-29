@@ -4,8 +4,8 @@
   npm install
 
 ## Demo
-  Simple Demo: https://bibek-tws.herokuapp.com/tws
-  Consuming API with Jquery Ajax Demo: https://bibek-tws.herokuapp.com/tws/api/consume
+  - Simple Demo: https://bibek-tws.herokuapp.com/tws
+  - Consuming API with Jquery Ajax Demo: https://bibek-tws.herokuapp.com/tws/api/consume
 
 ### API Endpoints
 
